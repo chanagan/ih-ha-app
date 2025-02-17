@@ -8,8 +8,6 @@ console.log("main: appData: ", appData);
 let configFile = join(appData, "ih-ap-config.json");
 const cbConfig = require(configFile);
 
-const { getDashboard } = require('./js/dshMainFuncs.cjs');
-const { getVIP } = require('./js/vipMainFuncs.cjs');
 const { getHA, getHADetails } = require('./js/haMainFuncs.cjs');
 
 // const { get } = require('http');
@@ -46,18 +44,6 @@ ipcMain.on('get/haDetails', async (event, accountID) => {
     getHADetails(win, accountID);
 });
 
-ipcMain.on('get/dashboard', async (event, dashDate) => {
-    console.log('main: get/dashboard', dashDate);
-    getDashboard(win, dashDate);
-});
-
-ipcMain.on('get/vip', async (event,vipDates) => {
-    let vipFrmDt = vipDates.vipFrmDt;
-    let vipToDt = vipDates.vipToDt;
-    
-    console.log('main: get/vip', vipFrmDt, vipToDt);
-    getVIP(win, vipFrmDt, vipToDt);
-});
 
 ipcMain.on('get/ha', async (event) => {
     console.log('main: get/ha');

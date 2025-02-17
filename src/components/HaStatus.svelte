@@ -2,7 +2,6 @@
     import { Input } from "@sveltestrap/sveltestrap";
 
     import { haStatusOpen, haStatusClosed } from "../sharedState.svelte.js";
-    import { OpenPanelFilledBottom } from "carbon-icons-svelte";
     const toggleOpen = (e) => {
         console.log("toggleOpen", e.target.checked);
         haStatusOpen.set(e.target.checked);

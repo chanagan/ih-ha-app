@@ -101,7 +101,7 @@ const getHA = (window) => {
                 let isGC = dtRecord.accountName.startsWith("GC")
                 let isEmp = dtRecord.accountName.startsWith("IH")
                 if (isGC || isEmp) {
-                    continue
+                    // continue
                 }
                 let haRecord = {};
                 haRecord.accountID = haData[i].accountID;
