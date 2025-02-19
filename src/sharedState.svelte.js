@@ -7,8 +7,8 @@ export const haSelected = writable(false);
 
 export const haStatusOpen = writable(true);
 export const haStatusClosed = writable(true);
-export const haShowGC = writable(true);
-export const haShowEmp = writable(true);
+
+export const haShowAcctType = writable(true);
 
 export const haDetails = writable([]);
 

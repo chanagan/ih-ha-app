@@ -33,7 +33,6 @@
 </script>
 
 <main>
-    House Accounts
 
     <hr size="3" color="red" />
     <div class="container">

@@ -5,7 +5,7 @@
     import { haCount } from "../sharedState.svelte.js";
     import { haDetails } from "../sharedState.svelte.js";
     import { haRecord } from "../sharedState.svelte.js";
-    import { haStatusOpen, haStatusClosed } from "../sharedState.svelte.js";
+    import { haStatusOpen, haStatusClosed, haShowAcctType } from "../sharedState.svelte.js";
     haDetails.set(null);
 
     const columns = [
@@ -59,9 +59,10 @@
         let thisTR = event.target.parentNode;
         let rowID = thisTR.dataset.key;
         let actName = thisTR.dataset.name;
+        let actType = thisTR.dataset.type;
         let accountStatus = thisTR.dataset.status;
+        console.log("haList: onSelect: ", rowID, " : ", actName, " : ", actType);
         console.log("haList: status: ", $haStatusOpen, " : ", $haStatusClosed);
-        console.log("haList: onSelect: ", rowID);
         api.send("get/haDetails", { rowID, actName, accountStatus });
         // console.log("haTable: onSelect: ", selectedRow);
     };
@@ -95,13 +96,15 @@
             </thead>
             <tbody>
                 {#each rows as row}
-                {#if ($haStatusOpen && row.accountStatus == 'open')
-                 || ($haStatusClosed && row.accountStatus == 'closed')}
+                {#if (($haStatusOpen && row.accountStatus == 'open')
+                 || ($haStatusClosed && row.accountStatus == 'closed'))
+                 && ($haShowAcctType === row.accountType)}
                     <tr
                         onclick={onSelect}
                         data-key={row.accountID}
                         data-name={row.accountName}
                         data-status={row.accountStatus}
+                        data-type={row.accountType}
                     >
                         {#each columns as c}
                             <td class={`${row.accountStatus} ${c.class}`}>{row[c.key]} </td>

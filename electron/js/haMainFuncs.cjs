@@ -98,6 +98,14 @@ const getHA = (window) => {
             for (let i = 0; i < haData.length; i++) {
                 let dtRecord = haData[i];
                 // want only house accounts
+                let acct_type = '';
+                if (dtRecord.accountName.includes("GC")) {
+                    acct_type = 'g'
+                } else if (dtRecord.accountName.includes("IH")) {
+                    acct_type = 'e'
+                } else {
+                    acct_type = 'a'
+                }
                 let isGC = dtRecord.accountName.startsWith("GC")
                 let isEmp = dtRecord.accountName.startsWith("IH")
                 if (isGC || isEmp) {
@@ -107,6 +115,7 @@ const getHA = (window) => {
                 haRecord.accountID = haData[i].accountID;
                 haRecord.accountName = haData[i].accountName;
                 haRecord.accountStatus = haData[i].accountStatus;
+                haRecord.accountType = acct_type;
                 haRecord.charges = {};
                 haRecord.charges.balance = 0;
                 haRecord.charges.monMin = 0;

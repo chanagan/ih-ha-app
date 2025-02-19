@@ -1,45 +1,59 @@
 <script>
     import { Input } from "@sveltestrap/sveltestrap";
 
-    import { haShowGC, haShowEmp } from "../sharedState.svelte.js";
+    import { haShowAcctType } from "../sharedState.svelte.js";
 
-    const toggleGC = (e) => {
-        console.log("toggleGC", e.target.checked);
-        haShowGC.set(e.target.checked);
-    };
+    let radioGroup = $state();
 
-    const toggleEmp = (e) => {
-        console.log("toggleEmp", e.target.checked);
-        haShowEmp.set(e.target.checked);
+    const selAcctType = (e) => {
+        let selAcctType = e.currentTarget.value;
+        console.log("selAcctType", selAcctType);
+        haShowAcctType.set(selAcctType);
     };
 </script>
 
+<span class="haShowReg">
+    <Input
+    reverse
+    type="radio"
+    bind:group={radioGroup}
+    value="a"
+    onclick={selAcctType}
+    label="Regular"
+/>
+</span>
 <span class="haShowGC">
-    <Input reverse
-        type="switch"
-        checked={haShowGC}
-        label="Gift Card"
-        id="haShowGC"
-        bsSize="sm"
-        onclick={toggleGC}
-    />
+    <Input
+    reverse
+    type="radio"
+    bind:group={radioGroup}
+    value="g"
+    onclick={selAcctType}
+    label="Gift Card"
+/>
 </span>
 <span class="haShowEmp">
-    <Input reverse
-        type="switch"
-        checked={haShowEmp}
-        label="Employee"
-        id="haShowEmp"
-        bsSize="sm"
-        onclick={toggleEmp}
-    />
+    <Input
+    reverse
+    type="radio"
+    bind:group={radioGroup}
+    value="e"
+    onclick={selAcctType}
+    label="Employee"
+/>
 </span>
 
 <style>
+    .haShowReg {
+        color: #333333;
+        font-weight: bold;
+    }
     .haShowGC {
-        color: #18966c;
+        color: #cc9900;
+        font-weight: bold;
     }
     .haShowEmp {
-        color: #961861;
+        color: #ff6633;
+        font-weight: bold;
     }
 </style>

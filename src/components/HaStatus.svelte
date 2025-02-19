@@ -37,8 +37,10 @@
 <style>
     .haStatusOpen {
         color: #18966c;
+        font-weight: bold;
     }
     .haStatusClosed {
         color: #961861;
+        font-weight: bold;
     }
 </style>
