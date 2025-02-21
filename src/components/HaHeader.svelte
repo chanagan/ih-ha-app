@@ -7,13 +7,14 @@
         Icon,
     } from "@sveltestrap/sveltestrap";
 
-    import { haCount } from "../sharedState.svelte.js";
+    import { haCount, haSelName } from "../sharedState.svelte.js";
 
 
 
     let haName = $state("");
 
     const get_HAs = () => {
+        haSelName.set(haName.toLowerCase());
         console.log("get_HA: ", haName);
     };
 </script>
@@ -29,9 +30,7 @@
             />
         </Col>
         <Col xs="1">
-            {#if haName}
                 <Icon name="search" size={32} onclick={get_HAs} />
-            {/if}
         </Col>
         <Col xs="3">
             {#if $haCount > 0}

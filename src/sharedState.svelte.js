@@ -5,6 +5,8 @@ export const haDetRecord = $state({ detail: {} });
 export const haCount = writable(0);
 export const haSelected = writable(false);
 
+export const haSelName = writable("");
+
 export const haStatusOpen = writable(true);
 export const haStatusClosed = writable(true);
 

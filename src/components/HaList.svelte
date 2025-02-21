@@ -2,10 +2,15 @@
     import { Table } from "@sveltestrap/sveltestrap";
     import { onMount, onDestroy } from "svelte";
 
-    import { haCount } from "../sharedState.svelte.js";
+    import { haCount, haSelName } from "../sharedState.svelte.js";
     import { haDetails } from "../sharedState.svelte.js";
     import { haRecord } from "../sharedState.svelte.js";
-    import { haStatusOpen, haStatusClosed, haShowAcctType } from "../sharedState.svelte.js";
+    import {
+        haStatusOpen,
+        haStatusClosed,
+        haShowAcctType,
+    } from "../sharedState.svelte.js";
+
     haDetails.set(null);
 
     const columns = [
@@ -53,6 +58,7 @@
     });
 
     let haSelected = $state(false);
+    let showIt = $state(false);
 
     // tell main we want details for the selected row
     const onSelect = (event) => {
@@ -61,7 +67,14 @@
         let actName = thisTR.dataset.name;
         let actType = thisTR.dataset.type;
         let accountStatus = thisTR.dataset.status;
-        console.log("haList: onSelect: ", rowID, " : ", actName, " : ", actType);
+        console.log(
+            "haList: onSelect: ",
+            rowID,
+            " : ",
+            actName,
+            " : ",
+            actType
+        );
         console.log("haList: status: ", $haStatusOpen, " : ", $haStatusClosed);
         api.send("get/haDetails", { rowID, actName, accountStatus });
         // console.log("haTable: onSelect: ", selectedRow);
@@ -86,34 +99,53 @@
 <main>
     <!-- <p> haStatusOpen: {$haStatusOpen} , haStatusClosed: {$haStatusClosed} </p> -->
     <div class="container haContainer">
-        <Table bordered size="sm" hover>
-            <thead class="header table-dark">
-                <tr>
-                    {#each columns as c}
-                        <th class={c.headerClass}>{c.title}</th>
-                    {/each}
-                </tr>
-            </thead>
-            <tbody>
-                {#each rows as row}
-                {#if (($haStatusOpen && row.accountStatus == 'open')
-                 || ($haStatusClosed && row.accountStatus == 'closed'))
-                 && ($haShowAcctType === row.accountType)}
-                    <tr
-                        onclick={onSelect}
-                        data-key={row.accountID}
-                        data-name={row.accountName}
-                        data-status={row.accountStatus}
-                        data-type={row.accountType}
-                    >
+        <!-- <p>haSelName: {$haSelName}</p> -->
+        {#key $haSelName}
+            <Table bordered size="sm" hover>
+                <thead class="header table-dark">
+                    <tr>
                         {#each columns as c}
-                            <td class={`${row.accountStatus} ${c.class}`}>{row[c.key]} </td>
+                            <th class={c.headerClass}>{c.title}</th>
                         {/each}
                     </tr>
-                {/if}
-                {/each} 
-            </tbody>
-        </Table>
+                </thead>
+                <tbody>
+                    {#each rows as row}
+                        {#if $haSelName != "" && row.accountName.toLowerCase().includes($haSelName)}
+                            <tr
+                                onclick={onSelect}
+                                data-key={row.accountID}
+                                data-name={row.accountName}
+                                data-status={row.accountStatus}
+                                data-type={row.accountType}
+                            >
+                                {#each columns as c}
+                                    <td
+                                        class={`${row.accountStatus} ${c.class}`}
+                                        >{row[c.key]}
+                                    </td>
+                                {/each}
+                            </tr>
+                        {:else if $haSelName === "" && (($haStatusOpen && row.accountStatus == "open") || ($haStatusClosed && row.accountStatus == "closed")) && $haShowAcctType === row.accountType}
+                            <tr
+                                onclick={onSelect}
+                                data-key={row.accountID}
+                                data-name={row.accountName}
+                                data-status={row.accountStatus}
+                                data-type={row.accountType}
+                            >
+                                {#each columns as c}
+                                    <td
+                                        class={`${row.accountStatus} ${c.class}`}
+                                        >{row[c.key]}
+                                    </td>
+                                {/each}
+                            </tr>
+                        {/if}
+                    {/each}
+                </tbody>
+            </Table>
+        {/key}
     </div>
 </main>
 
