@@ -44,9 +44,12 @@ ipcMain.on('get/haDetails', async (event, accountID) => {
     getHADetails(win, accountID);
 });
 
-
 ipcMain.on('get/ha', async (event) => {
     console.log('main: get/ha');
     getHA(win);
 });
 
+ipcMain.on('enterAdjustments', async (event, haRecord) => {
+    console.log('main: enterAdjustments: ', haRecord);
+    // getHA(win);
+});

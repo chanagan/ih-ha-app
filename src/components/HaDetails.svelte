@@ -82,7 +82,7 @@
 </script>
 
 <main>
-    {#if $haRecord.accountID}
+    {#if $haRecord.accountID && $haRecord.charges}
         <Container>
             <Row>
                 <Col>
@@ -101,7 +101,7 @@
             </Row>
         </Container>
     {:else}
-        <h6>No House Account Details</h6>
+        <h6>No Available Account Details</h6>
     {/if}
 </main>
 

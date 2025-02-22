@@ -1,16 +1,15 @@
 <script>
     // import SvelteTable from "svelte-table";
     import { haRecord } from "../sharedState.svelte.js";
-    import { Table, Icon } from "@sveltestrap/sveltestrap";
+    import { Table, Icon, Container, Row, Col } from "@sveltestrap/sveltestrap";
 
-    import { 
-    Button,
-    ButtonGroup,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader
-  } from '@sveltestrap/sveltestrap';
+    import {
+        Button,
+        Modal,
+        ModalBody,
+        ModalFooter,
+        ModalHeader,
+    } from "@sveltestrap/sveltestrap";
 
     const nFormat = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -76,15 +75,31 @@
         },
     ];
 
-    let row = $state({});
+    let row = $state();
     row = $haRecord;
 
     let open = $state(false);
-    let size = $state('md');   
-    let any;
+    let size = $state("md");
+
+    const enterCharges = () => {
+        console.log("enterCharges");
+        let haAdjRecord = {};
+        haAdjRecord.accountID = row.accountID;
+        haAdjRecord.adjustAmt = row.charges.minDelta;
+        haAdjRecord.ccService = row.charges.creChg;
+        
+        api.send("enterAdjustments",haAdjRecord); // send to main 
+    }
+    const cancel = () => {
+        open = false;
+    };
+    const showDialog = () => {
+        open = true;
+    }
     const toggle = () => {
         // size = undefined;
-        open = !open;
+        console.log('clicked X')
+        open = false;
     };
 </script>
 
@@ -107,8 +122,11 @@
                 {/each}
                 <td class="text-center">
                     <!-- <Icon name="door-open" /> -->
-                    <Icon name="currency-dollar"
-                    onclick={toggle} />
+                    <Icon
+                        name="credit-card-2-front"
+                        style="font-size: 1.5em"
+                        onclick={showDialog}
+                    />
                     <!-- <Icon name="file-excel" /> -->
                 </td>
             </tr>
@@ -116,15 +134,63 @@
         </tbody>
     </Table>
 
-    <Modal isOpen={open}  {size} backdrop='static'>
-        <ModalHeader {toggle} class="text-center">First of Month<br> for <br>{$haRecord.accountName}</ModalHeader>
+    <Modal isOpen={open} {size} backdrop="static" {row}>
+        <ModalHeader {toggle} class="text-center"
+            >First of Month: {row.accountName}</ModalHeader
+        >
         <ModalBody>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <Container>
+                <Row>
+                    <Col xs="9">Current Balance:</Col>
+                    <Col xs="3" class="text-end">
+                        {nFormat.format(row.charges.balance)}</Col
+                    >
+                </Row>
+                <Row>
+                    <Col xs="9">Minimum Adjustment:</Col>
+                    {#if row.charges.minDelta != 0}
+                        <Col
+                            xs="3"
+                            class="text-end "
+                            style="border: 3px solid red"
+                        >
+                            {nFormat.format(row.charges.minDelta)}</Col
+                        >
+                    {:else}
+                        <Col xs="3" class="text-center">N/A</Col>
+                    {/if}
+                </Row>
+                <Row>
+                    <Col xs="9">Florida Tax - 7.5%:</Col>
+                    <Col xs="3" class="text-end">
+                        {nFormat.format(row.charges.minTax)}</Col
+                    >
+                </Row>
+                <Row>
+                    <Col xs="9">Sub Total:</Col>
+                    <Col xs="3" class="text-end">
+                        {nFormat.format(row.charges.subTot)}</Col
+                    >
+                </Row>
+                <Row>
+                    <Col xs="9">CC Service Charge - 3%:</Col>
+                    <Col xs="3" class="text-end " style="border: 3px solid red">
+                        {nFormat.format(row.charges.creChg)}</Col
+                    >
+                </Row>
+                <Row>
+                    <Col xs="9">Total:</Col>
+                    <Col xs="3" class="text-end">
+                        {nFormat.format(row.charges.totChg)}</Col
+                    >
+                </Row>
+            </Container>
         </ModalBody>
         <ModalFooter>
-            <Button color="primary" onclick={toggle}>Do Something</Button>
-            <Button color="secondary" onclick={toggle}>Cancel</Button>
+            <Button size="sm" color="secondary" onclick={cancel}>Cancel</Button>
+            <Button size="sm" color="primary" onclick={enterCharges}
+                >Enter Additional Charge(s)</Button
+            >
         </ModalFooter>
     </Modal>
 </main>

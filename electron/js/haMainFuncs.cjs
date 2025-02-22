@@ -58,14 +58,15 @@ const getHADetails = (window, parms) => {
         resultsFrom: '2024-07-08',
         resultsTo: '2025-12-31',
     })
+    let haRecord = {};
+    haRecord.accountID = keyID;
+    haRecord.accountName = actName;
+    haRecord.accountStatus = accountStatus;
+    
     fetch(cbServer + cbApiHA_Details + params, cbOptions)
         .then(res => res.json())
         .then((data) => {
             let haData = data.data;
-            let haRecord = {};
-            haRecord.accountID = keyID;
-            haRecord.accountName = actName;
-            haRecord.accountStatus = accountStatus;
 
             let charges = computeCharges(haRecord.accountName, haData)
             haRecord.charges = charges
