@@ -83,12 +83,19 @@
 
     const enterCharges = () => {
         console.log("enterCharges");
-        let haAdjRecord = {};
-        haAdjRecord.accountID = row.accountID;
-        haAdjRecord.adjustAmt = row.charges.minDelta;
-        haAdjRecord.ccService = row.charges.creChg;
-        
-        api.send("enterAdjustments",haAdjRecord); // send to main 
+        if (row.charges.minDelta > 0) {
+            api.send("postAcctCharge", { 
+                accountID: row.accountID,
+                adjustAmt: row.charges.minDelta,
+                ccService: row.charges.creChg,
+             });
+
+        } else {
+            api.send("postCCService", { 
+                accountID: row.accountID,
+                ccService: row.charges.creChg,
+             });
+        }
     }
     const cancel = () => {
         open = false;

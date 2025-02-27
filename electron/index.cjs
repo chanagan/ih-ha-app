@@ -8,7 +8,7 @@ console.log("main: appData: ", appData);
 let configFile = join(appData, "ih-ap-config.json");
 const cbConfig = require(configFile);
 
-const { getHA, getHADetails } = require('./js/haMainFuncs.cjs');
+const { getHA, getHADetails, postAcctCharge, postCCService } = require('./js/haMainFuncs.cjs');
 
 // const { get } = require('http');
 
@@ -49,7 +49,15 @@ ipcMain.on('get/ha', async (event) => {
     getHA(win);
 });
 
-ipcMain.on('enterAdjustments', async (event, haRecord) => {
-    console.log('main: enterAdjustments: ', haRecord);
+ipcMain.on('postAcctCharge', async (event, adjData) => {
+    console.log('main: postAcctCharge: ', adjData);
+    postAcctCharge(win, adjData);
     // getHA(win);
 });
+
+ipcMain.on('postCCService', async (event, adjData) => {
+    console.log('main: postCCService: ', adjData);
+    postCCService(win, adjData);
+    // getHA(win);
+});
+
