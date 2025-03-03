@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const { app } = require("electron");
 const path = require("path");
 
@@ -51,7 +52,7 @@ const computeCharges = (accountName, haData) => {
 let haWin;
 const getHADetails = (window, parms) => {
     let { rowID, actName, accountStatus } = parms;
-    console.log('ipcMain main: getHaBalance: ', rowID, actName, accountStatus)
+    console.log('ipcMain haMainFuncs: getHADetails: ', rowID, actName, accountStatus)
     let keyID = rowID;
     // console.log('ipcMain main: getHaBalance: ', keyID)
     let params = new URLSearchParams({
@@ -115,6 +116,7 @@ const getHA = (window) => {
                     // continue
                 }
                 let haRecord = {};
+                haRecord.timeStamp = Date.now();
                 haRecord.accountID = haData[i].accountID;
                 haRecord.accountName = haData[i].accountName;
                 haRecord.accountStatus = haData[i].accountStatus;
@@ -133,6 +135,7 @@ const getHA = (window) => {
             // log("main: getHA_List:");
             haAcctRecordsList.sort((a, b) => (a.accountName > b.accountName ? 1 : -1));
             console.log("main: getHA_List: ", haAcctRecordsList.length);
+            console.log("main: getHA_List: ", haAcctRecordsList[0]);
             haWin.webContents.send("haList", haAcctRecordsList); // send to preload
         })
         .catch(err => console.error(err))
@@ -144,7 +147,7 @@ const getHA = (window) => {
 
 const postAcctCharge = (window, parms) => {
     haWin = window;
-    let { accountID, adjustAmt, ccService } = parms;
+    let { accountID, accountName, accountStatus, adjustAmt, ccService } = parms;
     let postOptions = cbPostOptions;
     let data = {
         propertyID: cbPropertyID,
@@ -154,23 +157,33 @@ const postAcctCharge = (window, parms) => {
         itemPrice: adjustAmt.toFixed(2),
         itemNote: "App Generated"
     }
-    postOptions.body = JSON.stringify(data);
-    console.log('ipcMain haMainFuncs: postAcctCharge: ', postOptions)
 
-    fetch(cbServer + cbApiPostItem, postOptions)
-        .then(res => res.json())
-        .then((data) => {
-            console.log('ipcMain haMainFuncs: postAcctCharge: ', data)
+    axios.post(cbServer + cbApiPostItem, data, postOptions)
+        .then(res => {
+            console.log('ipcMain haMainFuncs: postAcctCharge: ', res.data)
+            postCCService(window, { accountID, accountName, accountStatus, ccService })
         })
         .catch(err => console.error(err))
         ;
 
-    postCCService(window, { accountID, ccService })
+
+    // postOptions.body = JSON.stringify(data);
+    // console.log('ipcMain haMainFuncs: postAcctCharge: ', postOptions)
+
+    // fetch(cbServer + cbApiPostItem, postOptions)
+    //     .then(res => res.json())
+    //     .then((data) => {
+    //         console.log('ipcMain haMainFuncs: postAcctCharge: ', data)
+    //     })
+    //     .catch(err => console.error(err))
+    //     ;
+
 };
 
 const postCCService = (window, parms) => {
     haWin = window;
-    let { accountID, ccService } = parms;
+    let { accountID, accountName, accountStatus, ccService } = parms;
+    console.log('ipcMain haMainFuncs: postCCService: ', accountID, accountName, accountStatus, ccService)
     let itemCount = 1;
     let postOptions = cbPostOptions;
     let data = {
@@ -181,19 +194,29 @@ const postCCService = (window, parms) => {
         itemPrice: ccService.toFixed(2),
         itemNote: "App Generated"
     }
-    postOptions.body = JSON.stringify(data);
-    console.log('ipcMain haMainFuncs: postCCService: ', postOptions)
 
-    fetch(cbServer + cbApiPostItem, postOptions)
-        .then(res => res.json())
-        .then((data) => {
-            console.log('ipcMain haMainFuncs: postCCService: ', data)
+    axios.post(cbServer + cbApiPostItem, data, postOptions)
+        .then(res => {
+            console.log('ipcMain haMainFuncs: postCCService: ', res.data)
+            getHADetails(window, { rowID: accountID, actName: accountName, accountStatus: accountStatus })
         })
         .catch(err => console.error(err))
         ;
 
+    // postOptions.body = JSON.stringify(data);
+    // console.log('ipcMain haMainFuncs: postCCService: ', postOptions)
+
+    // fetch(cbServer + cbApiPostItem, postOptions)
+    //     .then(res => res.json())
+    //     .then((data) => {
+    //         console.log('ipcMain haMainFuncs: postCCService: ', data)
+    //     })
+    //     .catch(err => console.error(err))
+    //     ;
+
 }
-module.exports = { 
-    getHA, getHADetails, 
-    postAcctCharge, 
-    postCCService };
+module.exports = {
+    getHA, getHADetails,
+    postAcctCharge,
+    postCCService
+};
