@@ -1,0 +1,9 @@
+ipcMain haMainFuncs: postAcctCharge:  {
+  success: true,
+  data: { soldProductID: '45108451', transactionID: '76133255000245' }
+}
+ipcMain haMainFuncs: postCCService:  611508 IH-EMP DAUREN YUMASHEV - Maint closed 3.225
+ipcMain haMainFuncs: postCCService:  {
+  success: true,
+  data: { soldProductID: '45108453', transactionID: '76133281484957' }
+}

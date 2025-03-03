@@ -28,6 +28,7 @@
   "dependencies": {
     "@mateothegreat/svelte5-router": "^0.1.38",
     "@sveltestrap/sveltestrap": "7.1.0",
+    "axios": "^1.8.1",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "carbon-components-svelte": "0.87.5",

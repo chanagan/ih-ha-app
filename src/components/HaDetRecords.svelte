@@ -8,6 +8,7 @@
         currency: "USD",
     });
 
+    console.log("haDetRecords: haRecord: ", $haRecord);
     let xTbody = $state(null);
     onMount(() => {
         // console.log("rend:haDetRecords onMount");
@@ -111,7 +112,8 @@
         </div>
     </div>
     <div class="container recContainer">
-        {#key $haRecord.accountID}
+        <!-- {#key $haRecord.accountID} -->
+        {#key $haRecord.timeStamp}
             <Table bordered size="sm" hover>
                 <thead class="header table-dark">
                     <tr>

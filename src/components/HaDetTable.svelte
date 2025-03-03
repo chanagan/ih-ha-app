@@ -83,9 +83,12 @@
 
     const enterCharges = () => {
         console.log("enterCharges");
+        console.log("haRecord: ", $haRecord);
         if (row.charges.minDelta > 0) {
             api.send("postAcctCharge", { 
                 accountID: row.accountID,
+                accountName: $haRecord.accountName,
+                accountStatus: $haRecord.accountStatus,
                 adjustAmt: row.charges.minDelta,
                 ccService: row.charges.creChg,
              });
@@ -93,9 +96,12 @@
         } else {
             api.send("postCCService", { 
                 accountID: row.accountID,
+                accountName: $haRecord.accountName,
+                accountStatus: $haRecord.accountStatus,
                 ccService: row.charges.creChg,
              });
         }
+        open = false;
     }
     const cancel = () => {
         open = false;

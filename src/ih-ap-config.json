@@ -1,0 +1,30 @@
+{
+    "winWidth": 1200,
+    "winHeight": 900,
+    "winX": 5,
+    "winY": 5,
+    "devTools": false,
+
+    "cbPropertyID": "310046",
+    "cbServer": "https://hotels.cloudbeds.com/api/v1.2/",
+    "cbOptions": {
+        "method": "GET",
+        "headers": {
+            "Content-Type": "application/json",
+            "x-api-key": "cbat_AVYJ4dezriaScXdXY9WJrVyjHl5PxxY5"
+        }
+    },
+    "cbPostOptions": {
+        "method": "POST",
+        "headers": {
+            "Content-Type": "multipart/form-data",
+            "x-api-key": "cbat_MWIUB7m1tX5HofRUaoYIlaj1DRftffz8"
+
+        },
+        "body": ""
+    },
+    "cbItmMinAdjID": "1075305",
+    "cbItmCCFeeID": "1075470",
+    "cbhEmpID": "611559",
+    "cbhHaID": "546080"
+}
