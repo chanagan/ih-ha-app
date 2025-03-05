@@ -1,5 +1,4 @@
 <script>
-    // import SvelteTable from "svelte-table";
     import { haRecord } from "../sharedState.svelte.js";
     import { Table, Icon, Container, Row, Col } from "@sveltestrap/sveltestrap";
 
@@ -110,7 +109,6 @@
         open = true;
     }
     const toggle = () => {
-        // size = undefined;
         console.log('clicked X')
         open = false;
     };
@@ -127,7 +125,6 @@
             </tr>
         </thead>
         <tbody>
-            <!-- {#each rows as r} -->
             <tr>
                 {#each columns as c}
                     <td class={c.class}>{nFormat.format(row.charges[c.key])}</td
@@ -143,7 +140,6 @@
                     <!-- <Icon name="file-excel" /> -->
                 </td>
             </tr>
-            <!-- {/each} -->
         </tbody>
     </Table>
 

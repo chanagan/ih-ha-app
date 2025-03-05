@@ -2,10 +2,11 @@
     import { Table } from "@sveltestrap/sveltestrap";
     import { onMount, onDestroy } from "svelte";
 
-    import { haCount, haSelName } from "../sharedState.svelte.js";
-    import { haDetails } from "../sharedState.svelte.js";
-    import { haRecord } from "../sharedState.svelte.js";
     import {
+        haCount,
+        haSelName,
+        haDetails,
+        haRecord,
         haStatusOpen,
         haStatusClosed,
         haShowAcctType,
@@ -20,7 +21,6 @@
             value: (v) => v.accountID,
             class: "text-start",
             headerClass: "header text-start",
-            // filterOptions: { enabled: false },
         },
         {
             key: "accountName",
@@ -37,9 +37,7 @@
 
     console.log("haList: props: ", haAcctRecordsList);
 
-    // limit rows to 10 for now
     let rows = $state([]);
-    // let limit = 10;
     let limit = haAcctRecordsList.length;
     let rowCnt = 0;
     for (let i = 0; i < limit; i++) {
@@ -84,12 +82,7 @@
     const showHaDetails = (event) => {
         console.log("haList: showHaDetails: ");
         if (event.data.type === "haDetails") {
-            // this is the selected row
-            // let keyID = event.data.haDetails.accountID;
-            // find the index of the selected row
-            // const index = rows.findIndex((row) => row.accountID === keyID); //rows.findIndex(row => user.name === 'Bob');
             console.log("haList: showHaDetails: ", event.data);
-            // rows[index].charges = event.data.haDetails.charges;
             haRecord.set(event.data.haDetails);
             haSelected = true;
         }
@@ -97,9 +90,7 @@
 </script>
 
 <main>
-    <!-- <p> haStatusOpen: {$haStatusOpen} , haStatusClosed: {$haStatusClosed} </p> -->
     <div class="container haContainer">
-        <!-- <p>haSelName: {$haSelName}</p> -->
         {#key $haSelName}
             <Table bordered size="sm" hover>
                 <thead class="header table-dark">

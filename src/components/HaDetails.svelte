@@ -1,24 +1,18 @@
 <script>
     import { Container, Row, Col } from "@sveltestrap/sveltestrap";
     import { onMount, onDestroy } from "svelte";
-    // import SvelteTable from "svelte-table";
 
     import HaDetTable from "./HaDetTable.svelte";
     import HaDetRecords from "./HaDetRecords.svelte";
 
-    // import { haDetails } from "../sharedState.svelte.js";
     import { haRecord } from "../sharedState.svelte.js";
-    // import { haDetRecord } from "../sharedState.svelte.js";
 
-    // let {haRecord} = $props()
     console.log("haDetails: stores: ", $haRecord);
 
     const nFormat = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
     });
-
-    // console.log("haDetails: ", $haRecord);
 
     const columns = [
         {

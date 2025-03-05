@@ -62,6 +62,7 @@ const getHADetails = (window, parms) => {
         resultsTo: '2025-12-31',
     })
     let haRecord = {};
+    haRecord.timeStamp = Date.now();
     haRecord.accountID = keyID;
     haRecord.accountName = actName;
     haRecord.accountStatus = accountStatus;

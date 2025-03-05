@@ -76,7 +76,7 @@
             records[i].credit - records[i].debit + records[i - 1].balance;
     }
 
-    // first, sort newest to oldest
+    // last, sort newest to oldest
     records.sort((a, b) =>
         a.transactionDateTime < b.transactionDateTime ? 1 : -1
     );
