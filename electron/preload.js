@@ -10,18 +10,6 @@ const WINDOW_API = {
 
 contextBridge.exposeInMainWorld('api', WINDOW_API)
 
-ipcRenderer.on('dashboard', (event, dashboard) => {
-    window.postMessage({ type: 'dashboard', dashboard }, '*')
-})
-
-ipcRenderer.on('vipResList', (event, vipResRecordsList) => {
-    window.postMessage({ type: 'vipResList', vipResRecordsList }, '*')
-})
-
-ipcRenderer.on('vipResDetail', (event, vipResDetailRecordsList) => {
-    window.postMessage({ type: 'vipResDetail', vipResDetailRecordsList }, '*')
-})
-
 ipcRenderer.on('haList', (event, haAcctRecordsList) => {
     window.postMessage({ type: 'haList', haAcctRecordsList }, '*')
 })

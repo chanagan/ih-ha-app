@@ -23,8 +23,8 @@
     });
 
     const showHAs = (event) => {
-        console.log("rend: ha: event: ", event);
         if (event.data.type === "haList") {
+            console.log("rend: ha: event: ", event);
             haList = true;
             haAcctRecordsList = event.data.haAcctRecordsList;
             // console.log("rend: event: ", haAcctRecordsList);

@@ -113,7 +113,7 @@
     </div>
     <div class="container recContainer">
         <!-- {#key $haRecord.accountID} -->
-        {#key $haRecord.timeStamp}
+        <!-- {#key $haRecord.timeStamp} -->
             <Table bordered size="sm" hover>
                 <thead class="header table-dark">
                     <tr>
@@ -139,7 +139,7 @@
                     {/each}
                 </tbody>
             </Table>
-        {/key}
+        <!-- {/key} -->
     </div>
 </main>
 

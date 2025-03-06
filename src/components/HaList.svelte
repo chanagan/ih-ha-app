@@ -5,14 +5,11 @@
     import {
         haCount,
         haSelName,
-        haDetails,
         haRecord,
         haStatusOpen,
         haStatusClosed,
         haShowAcctType,
     } from "../sharedState.svelte.js";
-
-    haDetails.set(null);
 
     const columns = [
         {
@@ -45,18 +42,6 @@
         rowCnt++;
     }
 
-    onMount(() => {
-        console.log("haList: onMount: ");
-        window.addEventListener("message", showHaDetails);
-    });
-
-    onDestroy(() => {
-        console.log("haList: onDestroy: ");
-        window.removeEventListener("message", showHaDetails);
-    });
-
-    let haSelected = $state(false);
-    let showIt = $state(false);
 
     // tell main we want details for the selected row
     const onSelect = (event) => {
@@ -78,15 +63,6 @@
         // console.log("haTable: onSelect: ", selectedRow);
     };
 
-    // get the details for the selected row from main
-    const showHaDetails = (event) => {
-        console.log("haList: showHaDetails: ");
-        if (event.data.type === "haDetails") {
-            console.log("haList: showHaDetails: ", event.data);
-            haRecord.set(event.data.haDetails);
-            haSelected = true;
-        }
-    };
 </script>
 
 <main>

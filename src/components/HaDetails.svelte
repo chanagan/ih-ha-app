@@ -73,6 +73,25 @@
         },
     ];
 
+    onMount(() => {
+        console.log("haDetails: onMount: ");
+        window.addEventListener("message", showHaDetails);
+    });
+
+    onDestroy(() => {
+        console.log("haDetails: onDestroy: ");
+        window.removeEventListener("message", showHaDetails);
+    });
+
+    // receive the details for the selected row from main
+    const showHaDetails = (event) => {
+        // console.log("haList: showHaDetails: ");
+        if (event.data.type === "haDetails") {
+            console.log("haList: showHaDetails: ", event.data);
+            haRecord.set(event.data.haDetails);
+            // haSelected = true;
+        }
+    };
 </script>
 
 <main>
@@ -80,7 +99,7 @@
         <Container>
             <Row>
                 <Col>
-                    {#key $haRecord.accountID}
+                    {#key $haRecord.timeStamp}
                     <HaDetTable {$haRecord}/>
                     {/key}
                 </Col> 
@@ -88,7 +107,7 @@
             <b>{$haRecord.accountName}</b>
             <Row>
                 <Col>
-                    {#key $haRecord.accountID}
+                    {#key $haRecord.timeStamp}
                     <HaDetRecords />
                     {/key}
                 </Col>

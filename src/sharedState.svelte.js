@@ -15,6 +15,7 @@ export const haShowAcctType = writable(true);
 export const haDetails = writable([]);
 
 export const haRecord = writable({
+    timeStamp: 0,
     accountID: "",
     accountName: "",
     accountStatus: "",
