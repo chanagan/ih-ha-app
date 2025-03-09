@@ -32,8 +32,14 @@ function main() {
     win.loadFile(join(__dirname, '../public/index.html'));
     win.on('ready-to-show', win.show);
 
+    let jsExec = `localStorage.setItem('appData', '${appData}')`;
+    win.webContents
+        .executeJavaScript(jsExec)
+
+
+
     console.log("main: isDev: ", isDev);
-    if (isDev) win.webContents.openDevTools({mode: 'detach'});  
+    if (isDev) win.webContents.openDevTools({ mode: 'detach' });
 }
 
 ipcMain.handle('get/version', () => app.getVersion());

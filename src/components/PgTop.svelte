@@ -1,10 +1,14 @@
 <script>
-    // import { Button, Col, Row } from "@sveltestrap/sveltestrap";
-    // import { Grid, Row, Column } from "carbon-components-svelte";
     import { Container, Row, Col } from "@sveltestrap/sveltestrap";
 
-    let ihLogo = "./images/ih-logo.png";
-    let cbLogo = "./images/cb-logo.png";
+
+    let appData = localStorage.getItem("appData");
+    let ihLogo = appData + "/images/ih-logo.png";
+    let cbLogo = appData + "/images/cb-logo.png";
+
+    console.log("PgTop: appData: ", appData);
+    // console.log("ihLogo: ", ihLogo);
+    // console.log("cbLogo: ", cbLogo);
 
 </script>
 

@@ -32,7 +32,7 @@
 
     haCount.set(haAcctRecordsList.length);
 
-    console.log("haList: props: ", haAcctRecordsList);
+    // console.log("haList: props: ", haAcctRecordsList);
 
     let rows = $state([]);
     let limit = haAcctRecordsList.length;

@@ -135,8 +135,8 @@ const getHA = (window) => {
             }
             // log("main: getHA_List:");
             haAcctRecordsList.sort((a, b) => (a.accountName > b.accountName ? 1 : -1));
-            console.log("main: getHA_List: ", haAcctRecordsList.length);
-            console.log("main: getHA_List: ", haAcctRecordsList[0]);
+            // console.log("main: getHA_List: ", haAcctRecordsList.length);
+            // console.log("main: getHA_List: ", haAcctRecordsList[0]);
             haWin.webContents.send("haList", haAcctRecordsList); // send to preload
         })
         .catch(err => console.error(err))
