@@ -2,11 +2,14 @@
     import { Container, Row, Col } from "@sveltestrap/sveltestrap";
 
 
-    let appData = localStorage.getItem("appData");
+    let tmpData = localStorage.getItem("appData");
+    let appData = tmpData.replace(/#/g, "\\");
     let ihLogo = appData + "/images/ih-logo.png";
     let cbLogo = appData + "/images/cb-logo.png";
 
     console.log("PgTop: appData: ", appData);
+    console.log("PgTop: ihLogo: ", ihLogo);
+    console.log("PgTop: cbLogo: ", cbLogo);
     // console.log("ihLogo: ", ihLogo);
     // console.log("cbLogo: ", cbLogo);
 

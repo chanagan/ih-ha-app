@@ -32,7 +32,11 @@ function main() {
     win.loadFile(join(__dirname, '../public/index.html'));
     win.on('ready-to-show', win.show);
 
-    let jsExec = `localStorage.setItem('appData', '${appData}')`;
+
+    let tmpAddData = appData.replace(/\\/g, "#");
+    console.log("main: tmpAddData: ", tmpAddData);
+
+    let jsExec = `localStorage.setItem('appData', '${tmpAddData}')`;
     win.webContents
         .executeJavaScript(jsExec)
 
