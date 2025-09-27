@@ -5,6 +5,10 @@ const isDev = !app.isPackaged;
 
 const appData = app.getPath("userData");
 console.log("main: appData: ", appData);
+
+const appDir = app.getAppPath();
+console.log("main: appDir: ", appDir);
+
 let configFile = join(appData, "ih-ap-config.json");
 const cbConfig = require(configFile);
 
@@ -32,9 +36,18 @@ function main() {
     win.loadFile(join(__dirname, '../public/index.html'));
     win.on('ready-to-show', win.show);
 
-    let jsExec = `localStorage.setItem('appData', '${appData}')`;
-    win.webContents
-        .executeJavaScript(jsExec)
+    win.on('did-finish-load', () => {
+        console.log("main: did-finish-load");
+        let jsExec = `localStorage.setItem('appData', '${appData}')`;
+        win.webContents
+            .executeJavaScript(jsExec)
+
+        jsExec = `localStorage.setItem('appDir', '${appDir}')`;
+        win.webContents
+            .executeJavaScript(jsExec)
+    });
+
+
 
 
 

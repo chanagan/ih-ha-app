@@ -3,10 +3,12 @@
 
 
     let appData = localStorage.getItem("appData");
+    let appDir = localStorage.getItem("appDir");
     let ihLogo = appData + "/images/ih-logo.png";
     let cbLogo = appData + "/images/cb-logo.png";
 
     console.log("PgTop: appData: ", appData);
+    console.log("PgTop: appDir: ", appDir);
     // console.log("ihLogo: ", ihLogo);
     // console.log("cbLogo: ", cbLogo);
 
