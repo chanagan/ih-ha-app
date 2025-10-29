@@ -59,7 +59,7 @@
             actType
         );
         console.log("haList: status: ", $haStatusOpen, " : ", $haStatusClosed);
-        api.send("get/haDetails", { rowID, actName, accountStatus });
+        api.send("get/haDetails", { rowID, actName, accountStatus, actType });
         // console.log("haTable: onSelect: ", selectedRow);
     };
 

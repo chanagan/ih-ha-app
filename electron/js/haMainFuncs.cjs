@@ -15,7 +15,7 @@ const cbApiHA_Details = "getHouseAccountDetails?";
 const cbApiHA_List = "getHouseAccountList?";
 const cbApiPostItem = "postItem?";
 
-const computeCharges = (accountName, haData) => {
+const computeCharges = (accountName, accountType, haData) => {
     const flTax = 0.075
     const ccFee = 0.03
     let credit = haData.total.credit.slice(4).replaceAll(',', '')
@@ -28,13 +28,22 @@ const computeCharges = (accountName, haData) => {
     let creChg = ''
     let totChg = ''
 
+    // console.log('computeCharges: ', accountType);
     if (balance >= 0) {
-        monMin = accountName.includes("&") ? 200 : 100
-        minDelta = balance < monMin ? monMin - balance : 0
-        minTax = minDelta * flTax
-        subTot = balance + minDelta + minTax
-        creChg = subTot * ccFee
-        totChg = subTot + creChg
+        if (accountType === 'a') {
+            if (accountName.includes("&")) {
+                monMin = 200;
+            } else {
+                monMin = 100;
+            }
+            minDelta = balance < monMin ? monMin - balance : 0
+            minTax = minDelta * flTax
+            subTot = balance + minDelta + minTax
+        } else {
+            subTot = balance
+        }
+    creChg = subTot * ccFee
+    totChg = subTot + creChg
     }
 
     return {
@@ -51,8 +60,8 @@ const computeCharges = (accountName, haData) => {
 
 let haWin;
 const getHADetails = (window, parms) => {
-    let { rowID, actName, accountStatus } = parms;
-    console.log('ipcMain haMainFuncs: getHADetails: ', rowID, actName, accountStatus)
+    let { rowID, actName, accountStatus, actType } = parms;
+    console.log('ipcMain haMainFuncs: getHADetails: ', rowID, actName, accountStatus, actType)
     let keyID = rowID;
     // console.log('ipcMain main: getHaBalance: ', keyID)
     let params = new URLSearchParams({
@@ -66,13 +75,14 @@ const getHADetails = (window, parms) => {
     haRecord.accountID = keyID;
     haRecord.accountName = actName;
     haRecord.accountStatus = accountStatus;
+    haRecord.accountType = actType;
 
     fetch(cbServer + cbApiHA_Details + params, cbOptions)
         .then(res => res.json())
         .then((data) => {
             let haData = data.data;
 
-            let charges = computeCharges(haRecord.accountName, haData)
+            let charges = computeCharges(haRecord.accountName, haRecord.accountType, haData)
             haRecord.charges = charges
             haRecord.records = haData.records
             // console.log(`credit: ${credit} - debit: ${debit} = balance: ${balance}`) // console.log('credit: ', credit) 
