@@ -106,8 +106,13 @@
         open = false;
     };
     const showDialog = () => {
-        open = true;
-    }
+        if (row.charges.totChg <= 0) {
+            alert('No charges to enter');
+            open = false;
+        } else {
+            open = true;
+        }
+    };
     const toggle = () => {
         console.log('clicked X')
         open = false;
