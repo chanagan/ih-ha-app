@@ -2,7 +2,7 @@ const { default: axios } = require("axios");
 const { app } = require("electron");
 const path = require("path");
 
-const isDev = !app.isPackaged;
+// const isDev = !app.isPackaged;
 const appData = app.getPath("userData");
 let configFile = path.join(appData, "ih-ap-config.json");
 const cbConfig = require(configFile);
@@ -88,8 +88,8 @@ const getHADetails = (window, parms) => {
         .then((data) => {
             let haData = data.data;
 
-            let charges = computeCharges(haRecord.accountName, haRecord.accountType, haData)
-            haRecord.charges = charges
+            // let charges = computeCharges(haRecord.accountName, haRecord.accountType, haData)
+            haRecord.charges = computeCharges(haRecord.accountName, haRecord.accountType, haData)
             haRecord.records = haData.records
             // console.log(`credit: ${credit} - debit: ${debit} = balance: ${balance}`) // console.log('credit: ', credit) 
             // return resData
@@ -98,7 +98,7 @@ const getHADetails = (window, parms) => {
         .catch(err => {
             // console.log(`main: getHaBalance: ${record} error: ${err}`) // console.log(err)
             window.webContents.send("haDetails", haRecord);
-            // console.error(err)
+            console.error(err)
         })
 }
 const getHA = (window) => {
