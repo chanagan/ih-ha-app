@@ -2,7 +2,7 @@ const { default: axios } = require("axios");
 const { app } = require("electron");
 const path = require("path");
 
-const isDev = !app.isPackaged;
+// const isDev = !app.isPackaged;
 const appData = app.getPath("userData");
 let configFile = path.join(appData, "ih-ap-config.json");
 const cbConfig = require(configFile);
@@ -63,12 +63,18 @@ const getHADetails = (window, parms) => {
     let { rowID, actName, accountStatus, actType } = parms;
     console.log('ipcMain haMainFuncs: getHADetails: ', rowID, actName, accountStatus, actType)
     let keyID = rowID;
+    let date = new Date();
+    let year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+
     // console.log('ipcMain main: getHaBalance: ', keyID)
     let params = new URLSearchParams({
         propertyID: cbPropertyID,
         houseAccountID: keyID,
         resultsFrom: '2024-07-08',
-        resultsTo: '2025-12-31',
+        resultsTo: formattedDate,
     })
     let haRecord = {};
     haRecord.timeStamp = Date.now();
@@ -82,8 +88,8 @@ const getHADetails = (window, parms) => {
         .then((data) => {
             let haData = data.data;
 
-            let charges = computeCharges(haRecord.accountName, haRecord.accountType, haData)
-            haRecord.charges = charges
+            // let charges = computeCharges(haRecord.accountName, haRecord.accountType, haData)
+            haRecord.charges = computeCharges(haRecord.accountName, haRecord.accountType, haData)
             haRecord.records = haData.records
             // console.log(`credit: ${credit} - debit: ${debit} = balance: ${balance}`) // console.log('credit: ', credit) 
             // return resData
@@ -92,7 +98,7 @@ const getHADetails = (window, parms) => {
         .catch(err => {
             // console.log(`main: getHaBalance: ${record} error: ${err}`) // console.log(err)
             window.webContents.send("haDetails", haRecord);
-            // console.error(err)
+            console.error(err)
         })
 }
 const getHA = (window) => {
@@ -177,18 +183,6 @@ const postAcctCharge = (window, parms) => {
         .catch(err => console.error(err))
         ;
 
-
-    // postOptions.body = JSON.stringify(data);
-    // console.log('ipcMain haMainFuncs: postAcctCharge: ', postOptions)
-
-    // fetch(cbServer + cbApiPostItem, postOptions)
-    //     .then(res => res.json())
-    //     .then((data) => {
-    //         console.log('ipcMain haMainFuncs: postAcctCharge: ', data)
-    //     })
-    //     .catch(err => console.error(err))
-    //     ;
-
 };
 
 const postCCService = (window, parms) => {
@@ -214,20 +208,15 @@ const postCCService = (window, parms) => {
         .catch(err => console.error(err))
         ;
 
-    // postOptions.body = JSON.stringify(data);
-    // console.log('ipcMain haMainFuncs: postCCService: ', postOptions)
-
-    // fetch(cbServer + cbApiPostItem, postOptions)
-    //     .then(res => res.json())
-    //     .then((data) => {
-    //         console.log('ipcMain haMainFuncs: postCCService: ', data)
-    //     })
-    //     .catch(err => console.error(err))
-    //     ;
 
 }
+
+// const generateEmployeeInvoice = (window, parms) => {
+//     console.log('ipcMain haMainFuncs: generateEmployeeInvoice: ', parms)
+// }
 module.exports = {
     getHA, getHADetails,
     postAcctCharge,
-    postCCService
+    postCCService,
+    // generateEmployeeInvoice,
 };

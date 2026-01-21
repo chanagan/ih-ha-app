@@ -12,7 +12,21 @@ console.log("main: appDir: ", appDir);
 let configFile = join(appData, "ih-ap-config.json");
 const cbConfig = require(configFile);
 
-const { getHA, getHADetails, postAcctCharge, postCCService } = require('./js/haMainFuncs.cjs');
+const {
+    getHA
+    , getHADetails
+    , postAcctCharge
+    , postCCService
+} = require('./js/haMainFuncs.cjs');
+
+const {
+    generateEmployeeInvoice
+} = require('./js/haGenExcel.cjs');
+const path = require('path');
+const fs = require('fs');
+
+const downloads = app.getPath("downloads");
+const ih_emps_dir = path.join(downloads, "ih_emps");
 
 // const { get } = require('http');
 
@@ -47,6 +61,12 @@ function main() {
             .executeJavaScript(jsExec)
     });
 
+    try {
+        fs.mkdirSync(ih_emps_dir, { recursive: true });
+        console.log('main: directory good', ih_emps_dir);
+    } catch (e) {
+        console.error('main: Failed to create: ', e);
+    }
 
 
 
@@ -77,6 +97,12 @@ ipcMain.on('postAcctCharge', async (event, adjData) => {
 ipcMain.on('postCCService', async (event, adjData) => {
     console.log('main: postCCService: ', adjData);
     postCCService(win, adjData);
+    // getHA(win);
+});
+
+ipcMain.on('generateEmployeeInvoice', async (event, invoiceData) => {
+    // console.log('main: generateEmployeeInvoice: ', invoiceData);
+    generateEmployeeInvoice(win, invoiceData);
     // getHA(win);
 });
 

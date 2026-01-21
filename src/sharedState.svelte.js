@@ -19,6 +19,7 @@ export const haRecord = writable({
     accountID: "",
     accountName: "",
     accountStatus: "",
+    accountType: "",
     charges: {
         balance: 0,
         monMin: 0,

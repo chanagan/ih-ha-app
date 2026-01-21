@@ -2,7 +2,7 @@
     import { Container, Row, Col } from "@sveltestrap/sveltestrap";
 
 
-    let appData = localStorage.getItem("appData");
+    let appData = localStorage.getItem("appData").replace(/#/g, "\\");
     let appDir = localStorage.getItem("appDir");
     let ihLogo = appData + "/images/ih-logo.png";
     let cbLogo = appData + "/images/cb-logo.png";
